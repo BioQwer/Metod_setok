@@ -125,7 +125,7 @@ namespace Решение_уравнений_с_Частными_производ
         static void Main(string[] args)
         {
             Console.WriteLine("шаг 0.1");
-            metod_setok_dirixle(0.1,2);
+            metod_setok_dirixle(0.01,2);
             Console.WriteLine("шаг 0.2");
             metod_setok_dirixle(0.2, 1);
 
