@@ -19,7 +19,7 @@ namespace Решение_уравнений_с_Частными_производ
         //Console.WriteLine(isOutOfBorder(0,4));
         private static bool isOutOfBorder(double x, double y)   //если вышел за границу false 
         {
-            if ((y > 4 * Math.Pow(Math.E, -x)) || (y < 1.0) || (x < 0.0))  //условие моего варианта
+            if ((y < 1 / x) || (y > 1.0) || (x > 10.0))  //условие моего варианта
                 return true;
             else
                 return false;
@@ -27,7 +27,7 @@ namespace Решение_уравнений_с_Частными_производ
 
         private static bool isNeedBorderNode(double x, double y, double h)   //если нужен граничный узел для заполнения сетки
         {
-            if ((y > 4 * Math.Pow(Math.E, -x) + h) || (y < 1.0 - h) || (x < 0.0 - h))
+            if ((y < 1 / x + h) || (y > 1.0 - h) || (x > 10.0 - h))
                 return false;
             else
                 return true;
@@ -36,7 +36,7 @@ namespace Решение_уравнений_с_Частными_производ
 
         public static double f(double x, double y)    //заданая граничная функция 
         {
-            return x * x + y * y;
+            return x * Math.Pow(Math.E,y); 
         }
 
         public static void metod_setok_dirixle(double h, int k)
@@ -46,14 +46,14 @@ namespace Решение_уравнений_с_Частными_производ
 
             double P = 2 * h;   //ширина прямоугольника 
             //задание контура прямоугольника в котором будем строить сетку
-            double a  ;   // 0 - h
+            double a;   // 0 - h
             if (k == 1)
                 a = -0.1;
             else
-                a = 0;
-            double b = 2 * Math.Log(2) + P;
-            double c = 1 - P;
-            double d = 4 + P;
+                a = 1;
+            double b = 10 + P;
+            double c = 0 - P;
+            double d = 1 + P;
             //Console.WriteLine(" a={0,9:F4}  b={1,10:F4}  c={2,10:F4}  d={3,10:F4}", a, b, c, d);
 
             int Nx = (int)((b - a) / h);   // n задает колличество итераций и тем самым разбиение сетки по оси X 
@@ -93,21 +93,21 @@ namespace Решение_уравнений_с_Частными_производ
 
             x = a;
             y = c;
-            for (int i = 0; i < Ny - 1; i+=k)
-                Console.Write("{0,6:F2}",c+i*h);
+            for (int i = 0; i < Ny - 1; i += k)
+                Console.Write("{0,6:F2}", c + i * h);
             Console.WriteLine();
-            for (int i = 1; i < Nx - 1; i+=k)
+            for (int i = 1; i < Nx - 1; i += k)
             {
                 Console.Write("{0,6:F2}", a + i * h);
-                for (int j = 1; j < Ny - 1; j+=k)
+                for (int j = 1; j < Ny - 1; j += k)
                 {
-                    Console.Write("{0,6:F2}", U[j,i]); 
+                    Console.Write("{0,6:F2}", U[j, i]);
                 }
                 Console.Write(Environment.NewLine);
             }
 
             string path = "F:\\Dropbox\\Visual Studio\\Projects\\Metod_setok\\";
-            StreamWriter file = new System.IO.StreamWriter(@"" + path + "file"+Nx+".txt");
+            StreamWriter file = new System.IO.StreamWriter(@"" + path + "file" + Nx + ".txt");
 
             for (int i = 0; i < Nx; i++)
             {
@@ -125,7 +125,7 @@ namespace Решение_уравнений_с_Частными_производ
         static void Main(string[] args)
         {
             Console.WriteLine("шаг 0.1");
-            metod_setok_dirixle(0.01,2);
+            metod_setok_dirixle(0.1, 2);
             Console.WriteLine("шаг 0.2");
             metod_setok_dirixle(0.2, 1);
 
